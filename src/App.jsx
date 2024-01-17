@@ -1,63 +1,37 @@
-import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup, signOut} from "firebase/auth";
-import app from './firebase/firebase.init';
-import { useState } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import Main from "./Layout/Main"
+import Home from "./components/Home/Home"
+import Login from "./components/Login/Login"
+import Register from "./components/Register/Register"
+import './App.css'
 
-const auth = getAuth(app);
 
 function App() {
-  const [user, setUser] = useState({})
-  const googleProvider = new GoogleAuthProvider()
-  const githubProvider = new GithubAuthProvider()
 
-  const googleSignIn = () =>{
-     signInWithPopup(auth, googleProvider)
-    .then(result =>{
-       const user = result.user;
-       setUser(user)
-       console.log(user)
-    })
-    .catch(error =>{
-      console.error(error)
-    })
-  }
-
-  const signOuts = () =>{
-    signOut(auth)
-    .then(() =>{
-      setUser({})
-    })
-    .catch(error =>{
-      console.error(error)
-    })
-  }
-
-  const gitHubSignIn = () =>{
-    signInWithPopup(auth, githubProvider)
-    .then(result =>{
-      const user = result.user
-      setUser(user)
-      console.log(user)
-    })
-    .catch()
-  }
-
-  return(
-    <div className='App'>
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Main></Main>,
+      children: [
       {
-        user.uid? <button onClick={signOuts}>Sign out</button> 
-        :
-        <>
-          <button onClick={googleSignIn}>Google Sign in</button> 
-          <button onClick={gitHubSignIn}>GitHub sign in</button>
-        </>
+        path: '/',
+        element: <Home></Home>
+      },
+      {
+        path: 'login',
+        element: <Login></Login>
+      },
+      {
+        path: 'register',
+        element: <Register></Register>
       }
-      {user.uid && 
-        <div>
-          <p>Name: {user.displayName}</p>
-          <p>Email: {user.email}</p>
-          <img src={user.photoURL} alt="" />
-        </div>
-      }
+    ]
+    }
+  ])
+
+  return (
+    <div className="App">
+      <RouterProvider router={router}> </RouterProvider>
     </div>
   )
 }
