@@ -4,6 +4,8 @@ import Home from "./components/Home/Home"
 import Login from "./components/Login/Login"
 import Register from "./components/Register/Register"
 import './App.css'
+import PrivateRouter from "./router/PrivateRouter"
+import Orders from "./components/Orders/Orders"
 
 
 function App() {
@@ -15,7 +17,11 @@ function App() {
       children: [
       {
         path: '/',
-        element: <Home></Home>
+        element: <PrivateRouter><Home></Home></PrivateRouter>
+      },
+      {
+        path: '/orders',
+        element: <PrivateRouter> <Orders></Orders> </PrivateRouter>
       },
       {
         path: 'login',

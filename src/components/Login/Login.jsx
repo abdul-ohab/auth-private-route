@@ -1,5 +1,11 @@
+import { useContext } from "react";
+import { AuthContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
+    const {signIn} = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const handleLogin = event =>{
         event.preventDefault();
@@ -7,6 +13,15 @@ const Login = () => {
         const email = form.email.value
         const password = form.password.value
         console.log(email,password)
+
+        signIn(email,password)
+        .then(result =>{
+            const user = result.user
+            console.log(user)
+            form.reset()
+            navigate('/')
+        })
+        .catch(error => console.error(error))
     }
 
     return (
@@ -33,7 +48,7 @@ const Login = () => {
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                            <button className="btn uppercase text-neutral-50 font-bold btn-primary">Login</button>
                         </div>
                     </form>
                 </div>
