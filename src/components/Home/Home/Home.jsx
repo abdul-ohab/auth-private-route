@@ -2,7 +2,7 @@
 const Home = () => {
     return (
         <div>
-            <h2 className="text-2xl">This is home</h2>
+            <h3>This is home Component</h3>
         </div>
     );
 };
